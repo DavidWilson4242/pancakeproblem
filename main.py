@@ -1,5 +1,6 @@
 # Artificial Intelligence Pancake Problem
 # Code by David Wilson and Yang He
+# This code must be run with Python3
 #
 # Run the program:
 # To run the "pancake solver", simply call stackPancakes().  There are
