@@ -59,7 +59,7 @@ class PancakeState:
         neighbors.append(neighbor)
     return neighbors
 
-def stack_pancakes():
+def stackPancakes():
   # generate a random initial state of pancakes size [1, 10]
   initialState = list(range(11))[1:]
   random.shuffle(initialState)
@@ -76,33 +76,33 @@ def stack_pancakes():
   
   # setup the initial A* state
   cameFrom = {}
-  open_set = {}
-  closed_set = {}
-  open_set[initialPancake.hash] = initialPancake
+  openSet = {}
+  closedSet = {}
+  openSet[initialPancake.hash] = initialPancake
   finalValue = None
   
   # find the goal state, keeping track of where each node came from
-  while len(open_set) > 0:
-    smallestKey = min(open_set, key=lambda k: open_set[k].f)
-    top = open_set[smallestKey]
+  while len(openSet) > 0:
+    smallestKey = min(openSet, key=lambda k: openSet[k].f)
+    top = openSet[smallestKey]
     if top.heuristic() == 0:
       finalValue = top
       break
-    del open_set[smallestKey]
-    closed_set[smallestKey] = top
+    del openSet[smallestKey]
+    closedSet[smallestKey] = top
     neighbors = top.generateNeighbors()
     for neighbor in neighbors:
       cost = top.g + neighbor.distance(top)
-      if neighbor.hash in open_set:
+      if neighbor.hash in openSet:
         if neighbor.g <= cost:
           continue
-      elif neighbor.hash in closed_set:
+      elif neighbor.hash in closedSet:
         if neighbor.g <= cost:
           continue
-        open_set[neighbor.hash] = closed_set[neighbor.hash]
-        del closed_set[neighbor.hash]
+        openSet[neighbor.hash] = closedSet[neighbor.hash]
+        del closedSet[neighbor.hash]
       else:
-        open_set[neighbor.hash] = neighbor
+        openSet[neighbor.hash] = neighbor
         neighbor.h = neighbor.heuristic()
         neighbor.f = neighbor.h + neighbor.g
       neighbor.g = cost
@@ -122,4 +122,4 @@ def stack_pancakes():
     print(p.stack)
 
 
-stack_pancakes()
+stackPancakes()
