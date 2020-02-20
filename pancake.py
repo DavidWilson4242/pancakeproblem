@@ -156,19 +156,20 @@ def stackPancakes(numPancakes=10, initialState=None, printResults=True):
     finalValue = cameFrom[finalValue.hash]
   path.reverse()
 
+
+  # insert the initial state at the front of the path, just for
+  # output formatting reasons
+  path.insert(0, initialState)
+
   # our heuristic function says nothing about the ordering of the pancakes.
   # [1, 2, 3, 4, 5] is considered a goal, and so is [5, 4, 3, 2, 1].  To remedy
   # this, simply add one more flip if the array is backwards.  This is a valid
   # move, essentially putting the spatula under the entire stack and flipping it
   # one final time
-  if path[-1][0] == 1:
+  if len(path) > 0 and path[-1][0] == 1:
     finalStep = path[-1][:]
     finalStep.reverse()
     path.append(finalStep)
-
-  # insert the initial state at the front of the path, just for
-  # output formatting reasons
-  path.insert(0, initialState)
 
   # print the solution
   if printResults:
@@ -184,13 +185,18 @@ def stackPancakes(numPancakes=10, initialState=None, printResults=True):
   return path
 
 def benchmark():
+  totalFlips = 0
+  totalN = 0
   for i in range(20):
     stackSize = (i + 1)*10
     startTime = time.time()
     path = stackPancakes(numPancakes=stackSize, printResults=False)
+    totalFlips += len(path) - 1
+    totalN += stackSize
     print("flipped {} pancakes.  elapsed time: {:.3f} seconds. flips: {}".format(stackSize, 
                                                                                  float(time.time() - startTime),
                                                                                  len(path) - 1))
+  print("average flip to pancake ratio: {:.3f}".format(totalFlips/totalN))
 
 # execute the code!  see top of program for documentation
 if len(sys.argv) > 1:
