@@ -68,9 +68,10 @@ class PancakeState:
       if self.stack[i] != other.stack[i]:
         break
     return len(self.stack) - cost
-
-  # generates all neighboring states.  If the neighbor hasn't been
-  # created yet, create it.  Otherwise return a reference into allNeighbors
+  
+  # generates an array of all neighboring states.  If a neigboring state
+  # hasn't been created yet, then create it.  Otherwise, insert a reference
+  # into allNeighbors
   def generateNeighbors(self):
     neighbors = []
     for i in range(len(self.stack) - 1):
