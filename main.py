@@ -1,20 +1,23 @@
 import random
 
-allNeighbors = {}
-cameFrom = {}
-
 class PancakeState:
+  
+  allNeighbors = {}
+
   def __init__(self, stack):
     self.f = 0
     self.g = 0
     self.h = 0
     self.stack = stack
     self.hash = self.hashify()
-    self.parent = None
+
   def copyStack(self):
     return self.stack[:]
+
   def hashify(self):
     return "".join([str(i) for i in self.stack])
+  
+  # flips 'i' pancakes at the top of the stack
   def flip(self, i):
     flips = []
     for n in range(i):
@@ -22,12 +25,19 @@ class PancakeState:
     for n in range(i):
       self.stack.append(flips.pop(0))
     self.hash = self.hashify()
+
+  # heuristic function that uses the method outlined in the paper
+  # that was provided on canvas
   def heuristic(self):
     cost = 0
     for i in range(len(self.stack) - 1):
       if (abs(self.stack[i + 1] - self.stack[i]) > 1):
         cost += 1
     return cost
+
+  # the distance function tells how many pancakes were flipped between
+  # two states.  The states MUST be adjacent, meaning only one flip 
+  # must have occured between 'self' and 'other'
   def distance(self, other):
     cost = 0
     for i in range(len(self.stack)):
@@ -35,42 +45,26 @@ class PancakeState:
       if self.stack[i] != other.stack[i]:
         break
     return len(self.stack) - cost
+
+  # generates all neighboring states.  If the neighbor hasn't been
+  # created yet, create it.  Otherwise return a reference into allNeighbors
   def generateNeighbors(self):
     neighbors = []
     for i in range(len(self.stack) - 1):
       neighbor = PancakeState(self.copyStack())
       neighbor.flip(i + 2)
-      if neighbor.hash in allNeighbors:
-        neighbors.append(allNeighbors[neighbor.hash])
+      if neighbor.hash in self.allNeighbors:
+        neighbors.append(self.allNeighbors[neighbor.hash])
       else:
         neighbors.append(neighbor)
     return neighbors
 
-def gscore(stack):
-  return
-
-def checkList(container, value):
-  for i in range(len(container)):
-    if container[i] == value:
-      return i
-  return -1
-
-def isInList(container, pancake):
-  for i in range(len(container)):
-    success = True
-    for j in range(len(pancake.stack)):
-      if container[i].stack[j] != pancake.stack[j]:
-        success = False
-        break
-    if success:
-      return True
-  return False
-
 def stack_pancakes():
   # generate a random initial state of pancakes size [1, 10]
-  initialState = list(range(20))[1:]
+  initialState = list(range(11))[1:]
   random.shuffle(initialState)
   
+  # setup the initial state
   initialPancake = PancakeState(initialState)
   initialPancake.g = 0
   initialPancake.h = initialPancake.heuristic()
@@ -78,12 +72,16 @@ def stack_pancakes():
 
   print("INITIAL STATE:")
   print(initialPancake.stack)
- 
+  print("========================================")
+  
+  # setup the initial A* state
+  cameFrom = {}
   open_set = {}
   closed_set = {}
   open_set[initialPancake.hash] = initialPancake
   finalValue = None
-
+  
+  # find the goal state, keeping track of where each node came from
   while len(open_set) > 0:
     smallestKey = min(open_set, key=lambda k: open_set[k].f)
     top = open_set[smallestKey]
@@ -110,13 +108,16 @@ def stack_pancakes():
       neighbor.g = cost
       cameFrom[neighbor.hash] = top
         
+  # follow the goal state's parents until we reach the initial state,
+  # generating a path backwards
   path = []
   while finalValue.hash != initialPancake.hash:
     path.append(finalValue)
     finalValue = cameFrom[finalValue.hash]
-  
   path.reverse()
-
+  
+  # print the solution
+  print("SOLUTION:")
   for p in path:
     print(p.stack)
 
