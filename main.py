@@ -10,8 +10,12 @@
 #                    may be passed.  Any ordering is acceptable.  If initialState is
 #                    passed, its length overrides numPancakes. If initialState is None, 
 #                    a randomly sorted stack from [1, numPancakes] is used. 
+#
+# A benchmarking function is also included.  It flips stacks of increasing size and
+# reports how long each flipping process takes
 
 import random
+import time
 
 class PancakeState:
   
@@ -81,7 +85,7 @@ def listdif(a, b):
     dif += 1
   return len(a) - dif
 
-def stackPancakes(numPancakes=10, initialState=None):
+def stackPancakes(numPancakes=10, initialState=None, printResults=True):
   
   if initialState != None:
     numPancakes = len(initialState)
@@ -102,10 +106,6 @@ def stackPancakes(numPancakes=10, initialState=None):
   initialPancake.g = 0
   initialPancake.h = initialPancake.heuristic()
   initialPancake.f = initialPancake.h
-
-  print("INITIAL PANCAKE STATE:")
-  print(initialPancake.stack)
-  print("========================================")
   
   # setup the initial A* state
   cameFrom = {}
@@ -164,13 +164,25 @@ def stackPancakes(numPancakes=10, initialState=None):
   path.insert(0, initialState)
 
   # print the solution
-  print("SOLUTION:")
-  print(initialState)
-  for i in range(len(path) - 1):
-    print(path[i + 1], end="")
-    print(" // flipped {} pancakes".format(listdif(path[i], path[i + 1])))
+  if printResults:
+    print("INITIAL PANCAKE STATE:")
+    print(initialState)
+    print("========================================")
+    print("SOLUTION:")
+    print(initialState)
+    for i in range(len(path) - 1):
+      print(path[i + 1], end="")
+      print(" // flipped {} pancakes".format(listdif(path[i], path[i + 1])))
+
+def benchmark():
+  for i in range(20):
+    stackSize = (i + 1)*10
+    startTime = time.time()
+    stackPancakes(numPancakes=stackSize, printResults=False)
+    print("flipped {} pancakes.  elapsed time: {:.3f} seconds".format(stackSize, float(time.time() - startTime)))
 
 # execute the code!  see top of program for documentation
 stackPancakes()
-# stackPancakes(numPancakes=20)
+# stackPancakes(numPancakes=30)
 # stackPancakes(initialState=[7,3,4,1,2,6,5])
+# benchmark()
