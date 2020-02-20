@@ -6,9 +6,10 @@
 # two optional arguments that you may pass to the function:
 #   numPancakes =>   the number of pancakes that you'd like to test flipping with.
 #                    defaults to 10.  if initialState has a value, overrides this
-#   initialState =>  a list of consecutive, unique integers ranging from [1, N] may
-#                    be passed.  If initialState is None, a randomly sorted stack from
-#                    [1, numPancakes] is used. 
+#   initialState =>  a list of integers that contains values [1, len(initialState)]
+#                    may be passed.  Any ordering is acceptable.  If initialState is
+#                    passed, its length overrides numPancakes. If initialState is None, 
+#                    a randomly sorted stack from [1, numPancakes] is used. 
 
 import random
 
