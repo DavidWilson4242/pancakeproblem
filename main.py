@@ -14,9 +14,14 @@
 #
 # A benchmarking function is also included.  It flips stacks of increasing size and
 # reports how long each flipping process takes
+#
+# Finally, the user may pass the number of pancakes to be flipped via command line.
+# Example:   python3 main.py 20
+# This would flip 20 pancakes, calling stackPancakes(numPancakes=20)
 
 import random
 import time
+import sys
 
 class PancakeState:
   
@@ -183,7 +188,13 @@ def benchmark():
     print("flipped {} pancakes.  elapsed time: {:.3f} seconds".format(stackSize, float(time.time() - startTime)))
 
 # execute the code!  see top of program for documentation
-stackPancakes()
-# stackPancakes(numPancakes=30)
-# stackPancakes(initialState=[7,3,4,1,2,6,5])
-# benchmark()
+if len(sys.argv) > 1:
+  try:
+    stackPancakes(numPancakes=int(sys.argv[1]))
+  except ValueError:
+    print("Input argument must be an integer")
+else:
+  stackPancakes()
+  # stackPancakes(numPancakes=30)
+  # stackPancakes(initialState=[7,3,4,1,2,6,5])
+  # benchmark()
