@@ -112,14 +112,23 @@ def stackPancakes():
   # generating a path backwards
   path = []
   while finalValue.hash != initialPancake.hash:
-    path.append(finalValue)
+    path.append(finalValue.stack)
     finalValue = cameFrom[finalValue.hash]
   path.reverse()
-  
+
+  # our heuristic function says nothing about the ordering of the pancakes.
+  # [1, 2, 3, 4, 5] is considered a goal, and so is [5, 4, 3, 2, 1].  To remedy
+  # this, simply add one more flip if the array is backwards.  This is a valid
+  # move, essentially putting the spatula under the entire stack and flipping it
+  # one final time
+  if path[-1][0] == 1:
+    finalStep = path[-1][:]
+    finalStep.reverse()
+    path.append(finalStep)
+
   # print the solution
   print("SOLUTION:")
   for p in path:
-    print(p.stack)
-
+    print(p)
 
 stackPancakes()
