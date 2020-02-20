@@ -170,6 +170,6 @@ def stackPancakes(numPancakes=10, initialState=None):
     print(" // flipped {} pancakes".format(listdif(path[i], path[i + 1])))
 
 # execute the code!  see top of program for documentation
-# stackPancakes()
-stackPancakes(numPancakes=20)
+stackPancakes()
+# stackPancakes(numPancakes=20)
 # stackPancakes(initialState=[7,3,4,1,2,6,5])
