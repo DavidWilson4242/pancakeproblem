@@ -16,7 +16,7 @@
 # reports how long each flipping process takes
 #
 # Finally, the user may pass the number of pancakes to be flipped via command line.
-# Example:   python3 main.py 20
+# Example:   python3 pancake.py 20
 # This would flip 20 pancakes, calling stackPancakes(numPancakes=20)
 
 import random
@@ -181,12 +181,16 @@ def stackPancakes(numPancakes=10, initialState=None, printResults=True):
       print(path[i + 1], end="")
       print(" // flipped {} pancakes".format(listdif(path[i], path[i + 1])))
 
+  return path
+
 def benchmark():
   for i in range(20):
     stackSize = (i + 1)*10
     startTime = time.time()
-    stackPancakes(numPancakes=stackSize, printResults=False)
-    print("flipped {} pancakes.  elapsed time: {:.3f} seconds".format(stackSize, float(time.time() - startTime)))
+    path = stackPancakes(numPancakes=stackSize, printResults=False)
+    print("flipped {} pancakes.  elapsed time: {:.3f} seconds. flips: {}".format(stackSize, 
+                                                                                 float(time.time() - startTime),
+                                                                                 len(path) - 1))
 
 # execute the code!  see top of program for documentation
 if len(sys.argv) > 1:
