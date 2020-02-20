@@ -3,12 +3,12 @@
 #
 # Run the program:
 # To run the "pancake solver", simply call stackPancakes().  There are
-# two completely optional arguments that you may pass to the function:
-#   numPancakes =>   the number of pancakes that you'd like to test flipping.
+# two optional arguments that you may pass to the function:
+#   numPancakes =>   the number of pancakes that you'd like to test flipping with.
 #                    defaults to 10.  if initialState has a value, overrides this
 #   initialState =>  a list of consecutive, unique integers ranging from [1, N] may
 #                    be passed.  If initialState is None, a randomly sorted stack from
-#                    [1, numPancakes] is used
+#                    [1, numPancakes] is used. 
 
 import random
 
@@ -71,10 +71,26 @@ class PancakeState:
         neighbors.append(neighbor)
     return neighbors
 
+# helper function for printing the output in stackPancakes
+def listdif(a, b):
+  dif = 0
+  for v, k in zip(a, b):
+    if v != k:
+      break
+    dif += 1
+  return len(a) - dif
+
 def stackPancakes(numPancakes=10, initialState=None):
   
   if initialState != None:
     numPancakes = len(initialState)
+
+    # validate the user's initial state
+    for i in range(numPancakes):
+      if not (i + 1) in initialState:
+        print("initialState is not well formed.  Must be an array containing " +
+              "integers [1, len(initialState)] in any order.")
+        return
   else:
     # generate a random initial state of pancakes size [1, 10]
     initialState = list(range(numPancakes + 1))[1:]
@@ -128,7 +144,7 @@ def stackPancakes(numPancakes=10, initialState=None):
   # generating a path backwards
   path = []
   while finalValue.hash != initialPancake.hash:
-    path.append(finalValue)
+    path.append(finalValue.stack)
     finalValue = cameFrom[finalValue.hash]
   path.reverse()
 
@@ -137,17 +153,23 @@ def stackPancakes(numPancakes=10, initialState=None):
   # this, simply add one more flip if the array is backwards.  This is a valid
   # move, essentially putting the spatula under the entire stack and flipping it
   # one final time
-  if path[-1].stack[0] == 1:
-    finalStep = path[-1].stack[:]
+  if path[-1][0] == 1:
+    finalStep = path[-1][:]
     finalStep.reverse()
-    path.append(PancakeState(finalStep))
+    path.append(finalStep)
+
+  # insert the initial state at the front of the path, just for
+  # output formatting reasons
+  path.insert(0, initialState)
 
   # print the solution
   print("SOLUTION:")
   print(initialState)
   for i in range(len(path) - 1):
-    flips = path[i + 1].distance(path[i])
-    print(path[i + 1].stack, end="")
-    print(" // flipped {} pancakes".format(flips + 1))
+    print(path[i + 1], end="")
+    print(" // flipped {} pancakes".format(listdif(path[i], path[i + 1])))
 
+# execute the code!  see top of program for documentation
+# stackPancakes()
 stackPancakes(numPancakes=20)
+# stackPancakes(initialState=[7,3,4,1,2,6,5])
