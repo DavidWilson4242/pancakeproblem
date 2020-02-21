@@ -173,7 +173,7 @@ def stackPancakes(numPancakes=10, initialState=None, printResults=True):
     print("INITIAL PANCAKE STATE:")
     print(initialState)
     print("========================================")
-    print("SOLUTION:")
+    print("SOLUTION ({} total flips):".format(len(path) - 1))
     print(initialState)
     for i in range(len(path) - 1):
       print(path[i + 1], end="")
