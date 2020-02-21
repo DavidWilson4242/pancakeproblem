@@ -202,8 +202,8 @@ if len(sys.argv) > 1:
   except ValueError:
     print("Input argument must be an integer")
 else:
-  # stackPancakes()
+  stackPancakes()
   # other function calls you may be interested in:
   # stackPancakes(numPancakes=30)
   # stackPancakes(initialState=[7,3,4,1,2,6,5])
-  benchmark()
+  # benchmark()
