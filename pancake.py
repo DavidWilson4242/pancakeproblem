@@ -42,13 +42,9 @@ class PancakeState:
   def hashify(self):
     return "".join([str(i) for i in self.stack])
   
-  # flips 'i' pancakes at the top of the stack
+  # flips 'i' pancakes at the top of the stack via array slicing
   def flip(self, i):
-    flips = []
-    for n in range(i):
-      flips.append(self.stack.pop())
-    for n in range(i):
-      self.stack.append(flips.pop(0))
+    self.stack = self.stack[:-i] + self.stack[:-i-1:-1]
     self.hash = self.hashify()
 
   # heuristic function that uses the method outlined in the paper
@@ -158,7 +154,6 @@ def stackPancakes(numPancakes=10, initialState=None, printResults=True):
     finalValue = cameFrom[finalValue.hash]
   path.reverse()
 
-
   # insert the initial state at the front of the path, just for
   # output formatting reasons
   path.insert(0, initialState)
@@ -189,7 +184,7 @@ def stackPancakes(numPancakes=10, initialState=None, printResults=True):
 def benchmark():
   totalFlips = 0
   totalN = 0
-  for i in range(20):
+  for i in range(30):
     stackSize = (i + 1)*10
     startTime = time.time()
     path = stackPancakes(numPancakes=stackSize, printResults=False)
@@ -207,8 +202,8 @@ if len(sys.argv) > 1:
   except ValueError:
     print("Input argument must be an integer")
 else:
-  stackPancakes()
+  # stackPancakes()
   # other function calls you may be interested in:
   # stackPancakes(numPancakes=30)
   # stackPancakes(initialState=[7,3,4,1,2,6,5])
-  # benchmark()
+  benchmark()
