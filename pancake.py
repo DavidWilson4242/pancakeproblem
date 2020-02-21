@@ -147,7 +147,7 @@ def stackPancakes(numPancakes=10, initialState=None, printResults=True):
       cameFrom[neighbor.hash] = top
         
   # follow the goal state's parents until we reach the initial state,
-  # generating a path backwards
+  # generating a path backwards 
   path = []
   while finalValue.hash != initialPancake.hash:
     path.append(finalValue.stack)
