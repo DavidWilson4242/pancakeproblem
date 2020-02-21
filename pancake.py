@@ -62,9 +62,9 @@ class PancakeState:
   def distance(self, other):
     cost = 0
     for i in range(len(self.stack)):
-      cost += 1
       if self.stack[i] != other.stack[i]:
         break
+      cost += 1
     return len(self.stack) - cost
   
   # generates an array of all neighboring states.  If a neigboring state
