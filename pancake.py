@@ -184,7 +184,7 @@ def stackPancakes(numPancakes=10, initialState=None, printResults=True):
 def benchmark():
   totalFlips = 0
   totalN = 0
-  for i in range(30):
+  for i in range(50):
     stackSize = (i + 1)*10
     startTime = time.time()
     path = stackPancakes(numPancakes=stackSize, printResults=False)
