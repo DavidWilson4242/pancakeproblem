@@ -3,14 +3,16 @@
 # This code must be run with Python3
 #
 # Run the program:
-# To run the "pancake solver", simply call stackPancakes().  There are
-# two optional arguments that you may pass to the function:
+# To run the "pancake solver", simply call stackPancakes().  The function
+# returns the path to the goal in list format.  There are three optional
+# arguments that you may pass to the function:
 #   numPancakes =>   the number of pancakes that you'd like to test flipping with.
 #                    defaults to 10.  if initialState has a value, overrides this
 #   initialState =>  a list of integers that contains values [1, len(initialState)]
 #                    may be passed.  Any ordering is acceptable.  If initialState is
 #                    passed, its length overrides numPancakes. If initialState is None, 
 #                    a randomly sorted stack from [1, numPancakes] is used. 
+#   printResults =>  whether or not the function should print the path to the goal state
 #
 # A benchmarking function is also included.  It flips stacks of increasing size and
 # reports how long each flipping process takes
