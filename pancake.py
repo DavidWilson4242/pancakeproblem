@@ -51,21 +51,12 @@ class PancakeState:
   # that was provided on canvas
   def heuristic(self):
     cost = 0
+    if self.stack[0] != len(self.stack):
+      cost += 1
     for i in range(len(self.stack) - 1):
       if (abs(self.stack[i + 1] - self.stack[i]) > 1):
         cost += 1
     return cost
-
-  # the distance function tells how many pancakes were flipped between
-  # two states.  The states MUST be adjacent, meaning only one flip 
-  # must have occured between 'self' and 'other'
-  def distance(self, other):
-    cost = 0
-    for i in range(len(self.stack)):
-      if self.stack[i] != other.stack[i]:
-        break
-      cost += 1
-    return len(self.stack) - cost
   
   # generates an array of all neighboring states.  If a neigboring state
   # hasn't been created yet, then create it.  Otherwise, insert a reference
@@ -118,6 +109,8 @@ def stackPancakes(numPancakes=10, initialState=None, printResults=True):
   closedSet = {}
   openSet[initialPancake.hash] = initialPancake
   finalValue = None
+
+  startTime = time.time()
   
   # find the goal state, keeping track of where each node came from
   while len(openSet) > 0:
@@ -130,7 +123,7 @@ def stackPancakes(numPancakes=10, initialState=None, printResults=True):
     closedSet[smallestKey] = top
     neighbors = top.generateNeighbors()
     for neighbor in neighbors:
-      cost = top.g + neighbor.distance(top)
+      cost = top.g + 1
       if neighbor.hash in openSet:
         if neighbor.g <= cost:
           continue
@@ -170,14 +163,17 @@ def stackPancakes(numPancakes=10, initialState=None, printResults=True):
 
   # print the solution
   if printResults:
-    print("INITIAL PANCAKE STATE:")
+    print("\n" * 3)
+    print("====== INITIAL STATE (N={}) ======".format(numPancakes))
     print(initialState)
-    print("========================================")
-    print("SOLUTION ({} total flips):".format(len(path) - 1))
+    print("\n====== SOLUTION ({} total flips) ======".format(len(path) - 1))
     print(initialState)
     for i in range(len(path) - 1):
       print(path[i + 1], end="")
       print(" // flipped {} pancakes".format(listdif(path[i], path[i + 1])))
+    print("\n====== ELAPSED TIME ======")
+    print("{:.4f} seconds".format(time.time() - startTime))
+    print("\n" * 3)
 
   return path
 
