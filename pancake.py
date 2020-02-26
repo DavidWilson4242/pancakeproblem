@@ -178,9 +178,14 @@ def stackPancakes(numPancakes=10, initialState=None, printResults=True):
   # generate an array containing the number of flips and return it
   solution = []
   for i in range(len(path) - 1):
-    solution[i] = listdif(path[i], path[i + 1])
+    solution.append(listdif(path[i], path[i + 1]))
 
   return solution
+
+def generateInitialState(N=10):
+  state = list(range(N + 1))[1:]
+  random.shuffle(state)
+  return state
 
 def benchmark():
   totalFlips = 0
