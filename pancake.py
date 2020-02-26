@@ -175,7 +175,12 @@ def stackPancakes(numPancakes=10, initialState=None, printResults=True):
     print("{:.4f} seconds".format(time.time() - startTime))
     print("\n" * 3)
 
-  return path
+  # generate an array containing the number of flips and return it
+  solution = []
+  for i in range(len(path) - 1):
+    solution[i] = listdif(path[i], path[i + 1])
+
+  return solution
 
 def benchmark():
   totalFlips = 0
@@ -192,14 +197,15 @@ def benchmark():
   print("average flip to pancake ratio: {:.3f}".format(totalFlips/totalN))
 
 # execute the code!  see top of program for documentation
-if len(sys.argv) > 1:
-  try:
-    stackPancakes(numPancakes=int(sys.argv[1]))
-  except ValueError:
-    print("Input argument must be an integer")
-else:
-  stackPancakes()
-  # other function calls you may be interested in:
-  # stackPancakes(numPancakes=30)
-  # stackPancakes(initialState=[7,3,4,1,2,6,5])
-  # benchmark()
+if __name__ == "__main__":
+  if len(sys.argv) > 1:
+    try:
+      stackPancakes(numPancakes=int(sys.argv[1]))
+    except ValueError:
+      print("Input argument must be an integer")
+  else:
+    stackPancakes()
+    # other function calls you may be interested in:
+    # stackPancakes(numPancakes=30)
+    # stackPancakes(initialState=[7,3,4,1,2,6,5])
+    # benchmark()
